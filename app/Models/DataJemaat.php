@@ -12,23 +12,11 @@ class DataJemaat extends Model
     protected $table = 'data_jemaat'; // Ganti dengan nama tabel kamu
 
     protected $fillable = [
-        'id',
-        'nama_lengkap',
-        'kd_cabang',    
-        'kd_keluarga',
-        'tempat_lahir',
-        'tanggal_lahir',
-        'jenis_kelamin',
-        'keterangan_baptis',
-        'golongan_darah',
-        'nomor_hp',
-        'alamat',
-        'status_jemaat',
-        'status_anggota',
-        'sektor',
-        'unit_doa',
-        'pelayanan',
-
+    'kode_jemaat', // Kolom baru untuk menampung hasil generate barcode
+    'nama_lengkap', 'tempat_lahir', 'tanggal_lahir', 'jenis_kelamin', 
+    'keterangan_baptis', 'golongan_darah', 'nomor_hp', 'alamat', 
+    'status_jemaat', 'status_anggota', 'komisi', 'sektor', 
+    'unit_doa', 'pelayanan'
     ];
 
     

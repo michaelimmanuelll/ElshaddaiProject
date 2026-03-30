@@ -33,4 +33,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', function () {
         return view('operator.dashboard');
     })->name('dashboard');
+    // Rute Verifikasi Pendaftaran Baru
+    Route::post('/jemaat/{id}/verifikasi', [\App\Http\Controllers\DataJemaatController::class, 'verifikasi'])->name('jemaat.verifikasi');
 });
+
+// Rute Publik (Untuk Pendaftaran via QR Code / HP)
+Route::get('/daftar', [\App\Http\Controllers\DataJemaatController::class, 'formPendaftaran'])->name('pendaftaran.publik');
+Route::post('/daftar', [\App\Http\Controllers\DataJemaatController::class, 'simpanPendaftaran'])->name('pendaftaran.simpan');

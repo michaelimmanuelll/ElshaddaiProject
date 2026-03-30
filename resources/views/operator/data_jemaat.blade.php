@@ -89,56 +89,87 @@
         </div>
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table table-bordered table-hover align-middle">
-                    <thead class="table-primary text-center">
-                        <tr>
-                            <th>Cabang</th>
-                            <th>Keluarga</th>
-                            <th>Nama Lengkap</th>
-                            <th>L/P</th>
-                            <th>Sektor</th>
-                            <th>Unit Doa</th>
-                            <th>Baptis</th>
-                            <th>Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @forelse($data as $jemaat)
-                        <tr>
-                            <td class="text-center"><span class="badge bg-secondary">{{ $jemaat->kd_cabang }}</span></td>
-                            <td class="text-center fw-bold text-primary">{{ $jemaat->kd_keluarga }}</td>
-                            <td>{{ $jemaat->nama_lengkap }}</td>
-                            <td class="text-center">{{ $jemaat->jenis_kelamin == 'Laki-laki' ? 'L' : 'P' }}</td>
-                            <td>{{ $jemaat->sektor }}</td>
-                            <td>{{ $jemaat->unit_doa }}</td>
-                            <td class="text-center">
-                                <span class="badge {{ $jemaat->keterangan_baptis == 'Sudah' ? 'bg-success' : 'bg-warning' }}">
-                                    {{ $jemaat->keterangan_baptis }}
-                                </span>
-                            </td>
-                            <td class="text-center">
-                                <div class="btn-group" role="group">
-                                    <a href="{{ route('jemaat.edit', $jemaat->id) }}" class="btn btn-sm btn-outline-warning" title="Edit">
-                                        <i class="fas fa-edit"></i>
-                                    </a>
-                                    <form action="{{ route('jemaat.destroy', $jemaat->id) }}" method="POST" onsubmit="return confirm('Hapus data {{ $jemaat->nama_lengkap }}?')">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-sm btn-outline-danger" title="Hapus">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
-                                    </form>
-                                </div>
-                            </td>
-                        </tr>
-                        @empty
-                        <tr>
-                            <td colspan="8" class="text-center text-muted py-4">Data jemaat tidak ditemukan.</td>
-                        </tr>
-                        @endforelse
-                    </tbody>
-                </table>
-            </div>
+    <table class="table table-bordered table-hover align-middle" style="white-space: nowrap;">
+        
+        <thead class="table-primary text-center">
+            <tr>
+                <th>Aksi</th>
+                <th>Cap Waktu</th>
+                <th>Kode Jemaat</th>
+                <th>Nama Lengkap</th>
+                <th>Tempat Lahir</th>
+                <th>Tanggal Lahir</th>
+                <th>Jenis Kelamin</th>
+                <th>Status Baptis</th>
+                <th>Gol. Darah</th>
+                <th>No. HP / WA</th>
+                <th>Alamat</th>
+                <th>Status Jemaat</th>
+                <th>Status Anggota</th>
+                <th>Komisi</th>
+                <th>Sektor</th>
+                <th>Unit Doa</th>
+                <th>Pelayanan</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @forelse($data as $jemaat)
+            <tr>
+                <td class="text-center">
+                    <div class="btn-group" role="group">
+                        @if($jemaat->status_jemaat == 'Menunggu Verifikasi')
+                            <form action="{{ route('jemaat.verifikasi', $jemaat->id) }}" method="POST" onsubmit="return confirm('Verifikasi jemaat {{ $jemaat->nama_lengkap }} dan buatkan Kode Resmi?')" class="me-1">
+                                @csrf
+                                <button type="submit" class="btn btn-sm btn-success" title="Setujui & Verifikasi">
+                                    <i class="fas fa-check-circle"></i> Setujui
+                                </button>
+                            </form>
+                        @endif
+
+                        <a href="{{ route('jemaat.edit', $jemaat->id) }}" class="btn btn-sm btn-outline-warning" title="Edit">
+                            <i class="fas fa-edit"></i>
+                        </a>
+                        
+                        <form action="{{ route('jemaat.destroy', $jemaat->id) }}" method="POST" onsubmit="return confirm('Hapus data {{ $jemaat->nama_lengkap }}?')" class="ms-1">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-sm btn-outline-danger" title="Hapus">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </form>
+                    </div>
+                </td>
+                <td>{{ $jemaat->created_at->format('d/m/Y H:i') }}</td>
+                <td class="text-center fw-bold text-success">{{ $jemaat->kode_jemaat ?? 'Belum Digenerate' }}</td>
+                <td>{{ $jemaat->nama_lengkap }}</td>
+                <td>{{ $jemaat->tempat_lahir }}</td>
+                <td>{{ $jemaat->tanggal_lahir }}</td>
+                <td>{{ $jemaat->jenis_kelamin }}</td>
+                <td class="text-center">
+                    <span class="badge {{ $jemaat->keterangan_baptis == 'Sudah' ? 'bg-success' : 'bg-warning' }}">
+                        {{ $jemaat->keterangan_baptis }}
+                    </span>
+                </td>
+                <td class="text-center">{{ $jemaat->golongan_darah }}</td>
+                <td>{{ $jemaat->nomor_hp }}</td>
+                <td>{{ $jemaat->alamat }}</td>
+                <td>{{ $jemaat->status_jemaat }}</td>
+                <td>{{ $jemaat->status_anggota }}</td>
+                <td>{{ $jemaat->komisi ?? '-' }}</td>
+                <td>{{ $jemaat->sektor }}</td>
+                <td>{{ $jemaat->unit_doa }}</td>
+                <td>{{ $jemaat->pelayanan ?? 'Tidak Ada' }}</td>
+            </tr>
+            @empty
+            <tr>
+                <td colspan="17" class="text-center text-muted py-4">Data jemaat tidak ditemukan.</td>
+            </tr>
+            @endforelse
+        </tbody>
+    </table>
+</div>
+        </div>
         </div>
     </div>
 
