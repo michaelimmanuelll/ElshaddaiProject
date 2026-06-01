@@ -7,34 +7,64 @@ use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
-    public function login(Request $request)
+    /**
+     * Menampilkan halaman login
+     */
+    public function showLogin()
     {
-        $credentials = $request->validate([
-            'email' => 'required|email',
-            'password' => 'required',
-        ]);
-
-        if (Auth::attempt($credentials)) {
-            $request->session()->regenerate();
-
-            // Menggunakan method isAdminGereja() yang sudah Anda buat di Model User
-            if (Auth::user()->isAdminGereja()) {
-                return redirect()->route('jemaat.index'); // Langsung ke halaman Data Jemaat
-            }
-
-            return redirect()->intended('/'); 
-        }
-
-        return back()->withErrors([
-            'email' => 'Email atau kata sandi tidak terdaftar di sistem kami.',
-        ])->onlyInput('email');
+        return view('auth.login');
     }
 
+    /**
+     * Proses login user
+     */
+    public function login(Request $request)
+    {
+        // Validasi input
+        $credentials = $request->validate([
+            'email' => ['required', 'email'],
+            'password' => ['required'],
+        ]);
+
+        // Coba login
+        if (Auth::attempt($credentials)) {
+
+            // Regenerate session demi keamanan
+            $request->session()->regenerate();
+
+            // Jika admin gereja
+            if (Auth::user()->isAdminGereja()) {
+
+                return redirect()
+                    ->route('jemaat.index')
+                    ->with('success', 'Selamat datang Admin Gereja.');
+            }
+
+            // Jika user biasa
+            return redirect('/')
+                ->with('success', 'Berhasil login.');
+        }
+
+        // Jika login gagal
+        return back()
+            ->withErrors([
+                'email' => 'Email atau kata sandi tidak terdaftar di sistem kami.',
+            ])
+            ->onlyInput('email');
+    }
+
+    /**
+     * Logout user
+     */
     public function logout(Request $request)
     {
         Auth::logout();
+
         $request->session()->invalidate();
+
         $request->session()->regenerateToken();
-        return redirect('/');
+
+        return redirect('/')
+            ->with('success', 'Berhasil logout.');
     }
 }

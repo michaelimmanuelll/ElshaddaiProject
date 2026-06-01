@@ -130,7 +130,7 @@
                 <div class="row">
                     <div class="col-md-6 mb-3">
                         <label class="form-label">Komisi</label>
-                        <select name="komisi" class="form-select">
+                        <select name="komisi" class="form-select">``
                             <option value="">-- Pilih Komisi --</option>
                             <option value="Pelayanan Anak">Pelayanan Anak</option>
                             <option value="Remaja">Remaja</option>

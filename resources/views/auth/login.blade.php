@@ -558,25 +558,6 @@
                     Masuk
                 </button>
                 </form>
-
-                <div class="divider">
-                    <span>atau masuk dengan</span>
-                </div>
-
-                <div class="social-login">
-                    <button class="social-btn" onclick="socialLogin('google')">
-                        <span>🔍</span>
-                        Google
-                    </button>
-                    <button class="social-btn" onclick="socialLogin('facebook')">
-                        <span>📘</span>
-                        Facebook
-                    </button>
-                </div>
-
-                <div class="register-link">
-                    Belum punya akun? <a href="#">Daftar sekarang</a>
-                </div>
             </div>
         </div>
     </div>
